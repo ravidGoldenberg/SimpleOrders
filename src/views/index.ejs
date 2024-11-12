@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Express MongoDB App</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      max-width: 800px; 
+      margin: 0 auto; 
+      padding: 20px; 
+    }
+    .item { 
+      margin: 10px 0; 
+      padding: 15px; 
+      border: 1px solid #ddd; 
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .item-content {
+      flex-grow: 1;
+    }
+    .item-actions {
+      display: flex;
+      gap: 10px;
+    }
+    form { 
+      margin: 20px 0; 
+    }
+    button {
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      cursor: pointer;
+    }
+    .delete-btn {
+      background-color: #ff4444;
+      color: white;
+      border: none;
+    }
+    .edit-btn {
+      background-color: #44aa44;
+      color: white;
+      border: none;
+    }
+    .add-form {
+      display: flex;
+      gap: 10px;
+    }
+    .add-form input {
+      flex-grow: 1;
+      padding: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>My Items</h1>
+  
+  <form class="add-form" action="/items" method="POST">
+    <input type="text" name="name" placeholder="Enter item name" required>
+    <button type="submit">Add Item</button>
+  </form>
+
+  <div class="items">
+    <% items.forEach(function(item) { %>
+      <div class="item">
+        <div class="item-content">
+          <p><strong><%= item.name %></strong></p>
+          <small>Created: <%= new Date(item.created_at).toLocaleString() %></small>
+        </div>
+        <div class="item-actions">
+          <button class="edit-btn" onclick="editItem('<%= item._id %>', '<%= item.name %>')">Edit</button>
+          <form action="/items/<%= item._id %>/delete" method="POST" style="margin: 0;">
+            <button type="submit" class="delete-btn">Delete</button>
+          </form>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+
+  <script>
+    function editItem(id, currentName) {
+      const newName = prompt('Enter new name:', currentName);
+      if (newName && newName !== currentName) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/items/${id}`;
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'name';
+        input.value = newName;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+      }
+    }
+  </script>
+</body>
+</html>

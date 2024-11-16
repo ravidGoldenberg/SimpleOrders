@@ -2,9 +2,9 @@ const axios = require('axios');
 const getClient = require('mongodb-atlas-api-client');
 
 // MongoDB Atlas Project Details
-var MONGODB_GROUP_ID = '673064add3a71f000518adf8';
-var MONGODB_PUBLIC_KEY = 'hdfkalps';
-var MONGODB_PRIVATE_KEY = '2d23aa0b-2494-4575-badc-3a453013cc4a';
+var MONGODB_GROUP_ID = process.env.MONGODB_GROUP_ID;
+var MONGODB_PUBLIC_KEY = process.env.MONGODB_PUBLIC_KEY;
+var MONGODB_PRIVATE_KEY = process.env.MONGODB_PRIVATE_KEY;
 
 // Initialize MongoDB Atlas Client
 const { projectWhitelist } = getClient({
